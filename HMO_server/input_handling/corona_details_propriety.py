@@ -17,15 +17,15 @@ def is_valid_corona_date(corona_date_str):
     or raises a ValueError with an appropriate error message otherwise
     """
     try:
-        corona_date = datetime.datetime.strptime(corona_date_str, "%d/%m/%Y")
-        # The first COVID-19 patient in Israel was identified on February 21, 2020.
-        corona_starting_date = datetime.datetime(2020, 2, 21)
-        if corona_starting_date <= corona_date <= datetime.datetime.now():
-            return True
-        else:
-            raise ValueError("The date should be during the Corona period between February 21, 2020 and today.")
+        corona_date = datetime.datetime.strptime(corona_date_str, "%Y-%m-%d")
     except ValueError:
-        raise ValueError("Invalid date format. Please use the format dd/mm/yyyy.")
+        raise ValueError("Invalid date format. Please use the format yyyy-mm-dd.")
+        # The first COVID-19 patient in Israel was identified on February 21, 2020.
+    corona_starting_date = datetime.datetime(2020, 2, 21)
+    if corona_starting_date <= corona_date <= datetime.datetime.now():
+        return True
+    else:
+        raise ValueError("The date should be during the Corona period between February 21, 2020 and today.")
 
 
 def is_valid_infection_and_recovery_date(infection_date, recovery_date):
@@ -56,11 +56,12 @@ def is_valid_vaccine_date(vaccine_date, manufacturer):
      or raises a ValueError with an appropriate error message otherwise.
     """
     try:
-        manufacturing_date = datetime.datetime.strptime(vaccine_date, "%d/%m/%Y")
+        manufacturing_date = datetime.datetime.strptime(vaccine_date, "%Y-%m-%d")
     except ValueError:
-        raise ValueError("The vaccination date must be in the format of 'dd/mm/yyyy'")
-    if manufacturer.lower() not in ['sinovac', 'sinopharm', 'pfizer', 'moderna', 'oxford', 'bharat']:
-        raise ValueError(f"Unknown manufacturer {manufacturer}")
+        raise ValueError("The vaccination date must be in the format of 'yyyy-mm-dd'")
+    manufacturers = ['sinovac', 'sinopharm', 'pfizer', 'moderna', 'oxford', 'bharat']
+    if manufacturer.lower() not in manufacturers:
+        raise ValueError(f"Unknown manufacturer {manufacturer}, choose only from: {', '.join(manufacturers)}")
     if manufacturer.lower() in ['sinovac', 'sinopharm']:
         beginning_manufacturing_date = datetime.datetime(2020, 11, 1)
     elif manufacturer.lower() in ['pfizer', 'moderna']:
@@ -68,7 +69,20 @@ def is_valid_vaccine_date(vaccine_date, manufacturer):
     elif manufacturer.lower() in ['oxford', 'bharat']:
         beginning_manufacturing_date = datetime.datetime(2021, 1, 1)
     else:
-        raise ValueError("Incorrect manufacturing date")
+        raise ValueError("Incorrect vaccine date")
     if beginning_manufacturing_date <= manufacturing_date <= datetime.datetime.now():
         return True
-    raise ValueError("Incorrect manufacturing date")
+    raise ValueError("Incorrect vaccine date")
+
+
+def is_valid_corona_details(vaccine_data, infection_date):
+    try:
+        for vaccine_date, manufacturer in vaccine_data:
+            if vaccine_date and manufacturer:
+                is_valid_vaccine_date(vaccine_date, manufacturer)
+        (positive_date, recovery_date) = infection_date
+        if positive_date and recovery_date:
+            is_valid_infection_and_recovery_date(positive_date, recovery_date)
+        return True
+    except ValueError as e:
+        raise ValueError(str(e))

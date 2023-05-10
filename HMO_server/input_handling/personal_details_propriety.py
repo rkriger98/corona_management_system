@@ -2,6 +2,27 @@ import re
 import datetime
 
 
+def create_id_number(number):
+    """
+    The function checks if the identity number is valid according to an algorithm that calculates it
+    :param number:
+    :return: True if the ID number is correct  or raises a ValueError with an appropriate error message otherwise
+    """
+    id_12_digits = [1, 2, 1, 2, 1, 2, 1, 2]
+    id_num = str(number)
+    id_num = '0' * (8 - len(id_num)) + id_num
+    result = 0
+    for i in range(8):
+        num = int(id_num[i]) * id_12_digits[i]
+        num = (num // 10) + (num % 10) if (num >= 10) else num
+        result += num
+    for i in range(10):
+        if result % 10 == 0:
+            return id_num + str(i)
+        else:
+            result += 1
+
+
 def is_validate_id_number(id_number):
     """
     The function checks if the identity number is valid according to an algorithm that calculates it
@@ -70,7 +91,7 @@ def is_valid_landline_phone_number(phone_number):
     for pattern in patterns:
         if re.match(pattern, phone_number):
             return True
-    raise ValueError("Incorrect landline phone number")
+    raise ValueError("Incorrect telephone number")
 
 
 def is_valid_dob(dob_str):
@@ -81,7 +102,7 @@ def is_valid_dob(dob_str):
     :return: True if the date makes sense or raises a ValueError with an appropriate error message otherwise
     """
     try:
-        dob = datetime.datetime.strptime(dob_str, "%d/%m/%Y")
+        dob = datetime.datetime.strptime(dob_str, "%Y-%m-%d")
         hundred_years_ago = datetime.datetime.now() - datetime.timedelta(days=36524.25)
         #  the average length of the calendar year (the mean year) is 365.2425 days
         if hundred_years_ago <= dob <= datetime.datetime.now():
@@ -89,21 +110,39 @@ def is_valid_dob(dob_str):
         else:
             raise ValueError("Incorrect date of birth")
     except ValueError:
-        raise ValueError("Invalid date format. Please use the format dd/mm/yyyy.")
+        raise ValueError("Invalid date format. Please use the format yyyy-mm-dd.")
 
 
-def is_valid_personal_details(patient_id, date_of_birth, telephone, mobile):
+def is_only_letters(user_input):
+    for word in user_input:
+        if not bool(re.match("^[a-zA-Z' -]+$", word)):
+            raise ValueError("Input contains non-letter characters")
+    return True
+
+
+def is_valid_personal_details(personal_details):
+    pid, first, last, city, street, number, dob, tel, mob = personal_details
+    validation_funcs = [
+        lambda: is_validate_id_number(pid),
+        lambda: is_only_letters([first, last, city, street]),
+        lambda: str(number).isdigit(),
+        lambda: is_valid_dob(dob),
+        lambda: is_valid_landline_phone_number(tel),
+        lambda: is_valid_mobile_phone_number(mob)
+    ]
     try:
-        is_validate_id_number(patient_id)
-        is_valid_dob(date_of_birth)
-        is_valid_landline_phone_number(telephone)
-        is_valid_mobile_phone_number(mobile)
+        return all(func() for func in validation_funcs)
     except ValueError as e:
         raise ValueError(str(e))
 
 
 def main():
-    print()
+    new_id = create_id_number(12131415)
+    print(new_id)
+    if is_validate_id_number(new_id):
+        print(True)
+    else:
+        print(False)
 
 
 if __name__ == "__main__":

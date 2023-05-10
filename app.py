@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 from HMO_server.actions import get_patients, add_patient
 
@@ -13,10 +13,10 @@ def get():
         return str(e)
 
 
-# Add a new member
+# Add a new patient
 @app.route('/add_patient', methods=['POST'])
 def add():
     try:
-        return add_patient()
+        return add_patient(request.json)
     except ValueError as e:
         return str(e)
