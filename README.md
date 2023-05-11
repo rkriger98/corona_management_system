@@ -66,6 +66,7 @@ To use this program, follow the steps below:
     "recovery_date": "2021-03-22"
 }
 '
+- Choose the JSON format 
 - Click on SEND
 You will see below tha massage "Patient added successfully"
 ![image](https://github.com/rkriger98/corona_management_system/assets/73111633/98d0412c-ae7c-4b6d-a6b2-eaa5bd8a3c43)
