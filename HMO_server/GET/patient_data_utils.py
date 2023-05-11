@@ -1,4 +1,3 @@
-import pyodbc
 from HMO_server.connect_to_database import cursor
 
 
