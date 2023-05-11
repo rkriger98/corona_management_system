@@ -3,11 +3,6 @@ import datetime
 
 
 def is_validate_id_number(id_number):
-    """
-    The function checks if the identity number is valid according to an algorithm that calculates it
-    :param id_number: ID number
-    :return: True if the ID number is correct  or raises a ValueError with an appropriate error message otherwise
-    """
     if not (str(id_number)).isdigit():
         raise ValueError("Invalid ID format")
     id_12_digits = [1, 2, 1, 2, 1, 2, 1, 2, 1]
@@ -25,13 +20,9 @@ def is_validate_id_number(id_number):
 
 def is_valid_mobile_phone_number(phone_number):
     """
-    The function checks if a mobile phone number is in the correct format
+    Information from: https://en.wikipedia.org/wiki/Telephone_numbers_in_Israel
     X = any number
     N = any number excluding 0
-    Information from: https://en.wikipedia.org/wiki/Telephone_numbers_in_Israel
-    :param phone_number: Mobile phone Number as string
-    :return: True if it is constructed in one of the valid forms  or raises a ValueError with an appropriate error
-    message otherwise
     """
     patterns = [
         r'^07(18|22|23)\d{6}$',  # 0718XXXXXX, 0722XXXXXX, 0723XXXXXX
@@ -57,12 +48,8 @@ def is_valid_mobile_phone_number(phone_number):
 
 def is_valid_landline_phone_number(phone_number):
     """
-    The function checks if a landline phone number is in the correct format
-    X = any number
     Information from: https://en.wikipedia.org/wiki/Telephone_numbers_in_Israel
-    :param phone_number: Landline phone Number as string
-    :return: True if it is constructed in one of the valid forms  or raises a ValueError with an appropriate error
-    message otherwise
+    X = any number
     """
     patterns = [
         r'^0[23489](30|31)[0-9]{4}$',  # (0A) = 02,03,04,08,09: (0A)30XXXXX, (0A)31XXXXX
@@ -76,12 +63,6 @@ def is_valid_landline_phone_number(phone_number):
 
 
 def is_valid_dob(dob):
-    """
-    The function checks if the date of birth makes sense, it checks if the date is less than a hundred years ago and
-    less than today
-    :param dob: date of birth
-    :return: True if the date makes sense or raises a ValueError with an appropriate error message otherwise
-    """
     dob_datetime = parse_date(dob)
     hundred_years_ago = datetime.datetime.now() - datetime.timedelta(days=36524.25)
     # the average length of the calendar year (the mean year) is 365.2425 days

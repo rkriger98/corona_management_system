@@ -39,14 +39,6 @@ def is_valid_corona_date(corona_date):
 
 
 def is_valid_infection_and_recovery_date(infection_date, recovery_date):
-    """
-    The function checks if the date of infection and recovery match the Corona period and if the date of infection is
-    before the date of recovery
-    :param infection_date: Date of receiving a positive answer
-    :param recovery_date: Date of recovery from corona
-    :return: True if the dates are valid for the Corona period and if the infection date is before the recovery
-    date, or raises a ValueError with an appropriate error message otherwise
-    """
     try:
         if infection_date and not recovery_date:
             if is_valid_corona_date(infection_date):
