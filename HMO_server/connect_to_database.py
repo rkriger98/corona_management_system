@@ -5,4 +5,3 @@ with pyodbc.connect('Driver={SQL Server};'
                     'Database=Patient_Records_HMO_DB;'
                     'Trusted_Connection=yes;') as conn:
     cursor = conn.cursor()
-
