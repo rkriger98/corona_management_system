@@ -8,15 +8,15 @@ The accuracy of user input is highly valued in this project.
 ## Installation
 To run this program, you will need to have the following programs installed on your machine:
 
--Python 3.8
--SQL Server with SQL Server Management Studio (SMSS)
--Postman
+- Python 3.8
+- SQL Server with SQL Server Management Studio (SMSS)
+- Postman
 
 Additionally, you will need to install the required libraries for the program. You can find the list of required libraries in the requirements.txt file. To install the required libraries, run the following command in your terminal:
 
-'''bash
-pip install -r requirements.txt
-'''
+
+'pip install -r requirements.txt'
+
 
 Next, you will need to set up the database. The database is included in the patients_database.bak file. You can restore the database using SMSS by following these steps:
 
@@ -34,22 +34,22 @@ Finally, you can use Postman to interact with the program as a client.
 ## How to Use
 To use this program, follow the steps below:
 1. Open your terminal and run the following command to start the server:
-'''bash
-flask run
-'''
+
+'flask run'
+
 
 2. Connect to the server from Postman using the following commands:
 **To see the patients in the database:**
--Choose the GET option with the following URL: http://127.0.0.1:5000
--Choose the JSON format
--Click on SEND
--Click on body
+- Choose the GET option with the following URL: http://127.0.0.1:5000
+- Choose the JSON format
+- Click on SEND
+- Click on body
 ![image](https://github.com/rkriger98/corona_management_system/assets/73111633/73ac7e95-05e9-4c38-8bb1-d45ceb681caa)
 
 **To add a patient to the database:**
--Choose the POST option with the following URL: http://127.0.0.1:5000/add_patient
--Insert the following patient details in the body:
-'''bash
+- Choose the POST option with the following URL: http://127.0.0.1:5000/add_patient
+- Insert the following patient details in the body:
+'
 {
     "patient_id": "345678908",
     "first_name": "Maya",
@@ -65,26 +65,26 @@ flask run
     "positive_date": "2021-03-14",
     "recovery_date": "2021-03-22"
 }
-'''
--Click on SEND
+'
+- Click on SEND
 You will see below tha massage "Patient added successfully"
 ![image](https://github.com/rkriger98/corona_management_system/assets/73111633/98d0412c-ae7c-4b6d-a6b2-eaa5bd8a3c43)
 
 ## Input Integrity
 This program checks for input integrity to ensure that the user enters valid data. Here's what is being checked:
 
--Proper ID number.
--Telephone and cell phone numbers are correct.
--Reasonable dates: for date of birth, date of infection and recovery from corona, date of vaccination.
--Correct names for vaccine manufacturers.
+- Proper ID number.
+- Telephone and cell phone numbers are correct.
+- Reasonable dates: for date of birth, date of infection and recovery from corona, date of vaccination.
+- Correct names for vaccine manufacturers.
 
 If the user inputs invalid data, the program will issue an appropriate message.
-tkinoot kelet:
+
 ![image](https://github.com/rkriger98/corona_management_system/assets/73111633/23a5bc1b-a7dd-4a2c-990e-0c8633e01caa)
 
 ## Assumptions:
 
--To add a vaccine to a patient's record, both the vaccine manufacturer and the date of vaccination must be provided. 
--When adding a positive COVID-19 test result to a patient's record, both the date of infection and the date of recovery must be provided.
+- To add a vaccine to a patient's record, both the vaccine manufacturer and the date of vaccination must be provided. 
+- When adding a positive COVID-19 test result to a patient's record, both the date of infection and the date of recovery must be provided.
 
 
