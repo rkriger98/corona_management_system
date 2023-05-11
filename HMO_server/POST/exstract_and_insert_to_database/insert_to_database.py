@@ -18,7 +18,7 @@ def insert_address(city, street, build_number):
 
             values = (city, street, build_number)
             cursor.execute(insert_query, values)
-            # conn.commit()
+            conn.commit()
             # Get the newly created address_id
             cursor.execute(select_query, values)
             row = cursor.fetchone()
@@ -38,7 +38,7 @@ def insert_patient(patient_id, first_name, last_name, date_of_birth, telephone, 
         # Execute the INSERT query
         cursor.execute(insert_query, values)
         # Commit the changes to the database
-        # conn.commit()
+        conn.commit()
     except pyodbc.IntegrityError as e:
         if 'duplicate key' in str(e):
             raise ValueError("Patient with ID {} already exists in the system".format(patient_id))
@@ -55,7 +55,7 @@ def insert_vaccine(patient_id, vaccine_date, manufacturer):
         # Execute the INSERT query
         cursor.execute(insert_query, values)
         # Commit the changes to the database
-        # conn.commit()
+        conn.commit()
     except ValueError as e:
         raise ValueError(str(e))
 
@@ -67,6 +67,6 @@ def insert_infection(patient_id, positive_date, recovery_date):
         # Execute the INSERT query
         cursor.execute(insert_query, values)
         # Commit the changes to the database
-        # conn.commit()
+        conn.commit()
     except ValueError as e:
         raise ValueError(str(e))

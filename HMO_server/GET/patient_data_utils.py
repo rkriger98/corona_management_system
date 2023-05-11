@@ -19,7 +19,8 @@ def parse_patient_data(rows):
     current_patient = None
 
     for row in rows:
-        patient_id, first_name, last_name, city, street, number, date_of_birth, telephone, mobile, vaccine_date, manufacturer = row
+        patient_id, first_name, last_name, city, street, number, date_of_birth, telephone, mobile, vaccine_date,\
+        manufacturer = row
 
         if patient_id != current_patient_id:
             current_patient_id = patient_id

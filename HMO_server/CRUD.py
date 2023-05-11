@@ -1,5 +1,4 @@
 from flask import jsonify
-
 from HMO_server.GET.patient_data_utils import parse_patient_data, fetch_patient_data
 from HMO_server.POST.exstract_and_insert_to_database.extract_input import *
 from HMO_server.POST.exstract_and_insert_to_database.insert_to_database import *
