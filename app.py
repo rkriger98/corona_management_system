@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from HMO_server.actions import get_patients, add_patient
+from HMO_server.CRUD import get_patients, add_patient
 
 app = Flask(__name__)
 

@@ -2,33 +2,14 @@ import re
 import datetime
 
 
-def create_id_number(number):
-    """
-    The function checks if the identity number is valid according to an algorithm that calculates it
-    :param number:
-    :return: True if the ID number is correct  or raises a ValueError with an appropriate error message otherwise
-    """
-    id_12_digits = [1, 2, 1, 2, 1, 2, 1, 2]
-    id_num = str(number)
-    id_num = '0' * (8 - len(id_num)) + id_num
-    result = 0
-    for i in range(8):
-        num = int(id_num[i]) * id_12_digits[i]
-        num = (num // 10) + (num % 10) if (num >= 10) else num
-        result += num
-    for i in range(10):
-        if result % 10 == 0:
-            return id_num + str(i)
-        else:
-            result += 1
-
-
 def is_validate_id_number(id_number):
     """
     The function checks if the identity number is valid according to an algorithm that calculates it
     :param id_number: ID number
     :return: True if the ID number is correct  or raises a ValueError with an appropriate error message otherwise
     """
+    if not (str(id_number)).isdigit():
+        raise ValueError("Invalid ID format")
     id_12_digits = [1, 2, 1, 2, 1, 2, 1, 2, 1]
     id_num = str(id_number)
     id_num = '0' * (9 - len(id_num)) + id_num
@@ -69,7 +50,7 @@ def is_valid_mobile_phone_number(phone_number):
         r'^0558[789]\d{5}$',  # 0558YXXXXX (Y is 7 or 8 or 9)
         r'^0559[1-9]\d{5}$']  # 0559NXXXXX
     for pattern in patterns:
-        if re.match(pattern, phone_number):
+        if re.match(pattern, str(phone_number)):
             return True
     raise ValueError("Incorrect mobile phone number")
 
@@ -89,61 +70,36 @@ def is_valid_landline_phone_number(phone_number):
         r'^0[23489]38[01]{4}$',  # (0A)380XXXX, (0A)381XXXX
         r'^0[23489][56789][0-9]{6}$']  # (0A)YXXXXXX (Y is one of 5,6,7,8,9)
     for pattern in patterns:
-        if re.match(pattern, phone_number):
+        if re.match(pattern, str(phone_number)):
             return True
     raise ValueError("Incorrect telephone number")
 
 
-def is_valid_dob(dob_str):
+def is_valid_dob(dob):
     """
     The function checks if the date of birth makes sense, it checks if the date is less than a hundred years ago and
     less than today
-    :param dob_str: date of birth
+    :param dob: date of birth
     :return: True if the date makes sense or raises a ValueError with an appropriate error message otherwise
     """
-    try:
-        dob = datetime.datetime.strptime(dob_str, "%Y-%m-%d")
-        hundred_years_ago = datetime.datetime.now() - datetime.timedelta(days=36524.25)
-        #  the average length of the calendar year (the mean year) is 365.2425 days
-        if hundred_years_ago <= dob <= datetime.datetime.now():
-            return True
-        else:
-            raise ValueError("Incorrect date of birth")
-    except ValueError:
-        raise ValueError("Invalid date format. Please use the format yyyy-mm-dd.")
+    dob_datetime = parse_date(dob)
+    hundred_years_ago = datetime.datetime.now() - datetime.timedelta(days=36524.25)
+    # the average length of the calendar year (the mean year) is 365.2425 days
+    if hundred_years_ago <= dob_datetime <= datetime.datetime.now():
+        return True
+    else:
+        raise ValueError("Date of birth doesn't make sense")
 
 
 def is_only_letters(user_input):
     for word in user_input:
-        if not bool(re.match("^[a-zA-Z' -]+$", word)):
+        if not bool(re.match("^[a-zA-Z' -]+$", str(word))):
             raise ValueError("Input contains non-letter characters")
     return True
 
 
-def is_valid_personal_details(personal_details):
-    pid, first, last, city, street, number, dob, tel, mob = personal_details
-    validation_funcs = [
-        lambda: is_validate_id_number(pid),
-        lambda: is_only_letters([first, last, city, street]),
-        lambda: str(number).isdigit(),
-        lambda: is_valid_dob(dob),
-        lambda: is_valid_landline_phone_number(tel),
-        lambda: is_valid_mobile_phone_number(mob)
-    ]
+def parse_date(date):
     try:
-        return all(func() for func in validation_funcs)
-    except ValueError as e:
-        raise ValueError(str(e))
-
-
-def main():
-    new_id = create_id_number(12131415)
-    print(new_id)
-    if is_validate_id_number(new_id):
-        print(True)
-    else:
-        print(False)
-
-
-if __name__ == "__main__":
-    main()
+        return datetime.datetime.strptime(str(date), "%Y-%m-%d")
+    except ValueError:
+        raise ValueError("The dates must be in the format of 'yyyy-mm-dd'")
