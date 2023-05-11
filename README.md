@@ -35,15 +35,15 @@ Finally, you can use Postman to interact with the program as a client.
 To use this program, follow the steps below:
 1. Open your terminal and run the following command to start the server:
 
-'flask run'
+' flask run '
 
 
 2. Connect to the server from Postman using the following commands:
 **To see the patients in the database:**
 - Choose the GET option with the following URL: http://127.0.0.1:5000
-- Choose the JSON format
 - Click on SEND
 - Click on body
+- Choose the JSON format
 ![image](https://github.com/rkriger98/corona_management_system/assets/73111633/73ac7e95-05e9-4c38-8bb1-d45ceb681caa)
 
 **To add a patient to the database:**
